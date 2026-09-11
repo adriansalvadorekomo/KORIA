@@ -1,4 +1,3 @@
-
 <h1 align="center">KORIA — GabèsEye</h1>
 
 <p align="center">
@@ -14,68 +13,57 @@
   <img src="https://img.shields.io/badge/FastAPI-009688?style=flat&logo=fastapi&logoColor=white" />
 </p>
 
----
-
-## Overview
-
-**GabèsEye** is a cross-platform environmental surveillance application developed during the **H12 INNOVATION 3.0** national hackathon. It combines satellite imagery analysis, real-time sensor data, and AI-powered forecasting to deliver actionable environmental intelligence.
-
-The system monitors soil contamination, water turbidity, and air quality — giving field teams and researchers a real-time dashboard for environmental decision-making.
+<p align="center">
+  <sub>👋 Hi, I'm <a href="https://github.com/adriansalvadorekomo"><b>Adrian Salvador Ekomo</b></a> — Computer Engineering student building toward a <b>Junior Data Engineer</b> role. This repo is my proof of work.</sub>
+</p>
 
 ---
 
-## Architecture
+## Contents
+
+- [1. Project Overview](#1-project-overview)
+- [2. Architecture](#2-architecture)
+  - [System Architecture Diagram](#system-architecture-diagram)
+  - [Diagram Sources (D2 · Graphviz)](#diagram-sources-d2--graphviz)
+- [3. Features](#3-features)
+- [4. Tech Stack](#4-tech-stack)
+- [5. Getting Started](#5-getting-started)
+- [6. Project Structure](#6-project-structure)
+- [7. Conclusion](#7-conclusion)
+
+---
+
+## 1. Project Overview
+
+Gabès lives with a paradox: heavy industry on one side, fragile coastline and farmland on the other. When soil, water, and air all need watching at once, nobody has a single screen to look at.
+
+GabèsEye is our answer, built during the **H12 INNOVATION 3.0** national hackathon: an AI-powered environmental monitoring platform that fuses satellite remote sensing with ground-level IoT sensor data. PyTorch segmentation reads soil contamination and water turbidity from multispectral imagery, Airbyte syncs 20+ field devices with no manual wrangling, scikit-learn forecasts contamination and air-quality trends — and this repo, the cross-platform Flutter app, puts it all in the hands of farmers, fishermen, and authorities through maps, charts, and a multilingual chatbot.
+
+- **Status:** Hackathon build — Android, iOS, Web, Linux, macOS, and Windows from one codebase.
+
+---
+
+## 2. Architecture
+
+### System Architecture Diagram
 
 ![GabèsEye system architecture](docs/architecture.svg)
 
 *Satellite pixels and field-sensor streams converge through ML models into one
 FastAPI backend serving the cross-platform Flutter app.*
 
-<details>
-<summary><b>Diagram sources (D2 · Graphviz)</b></summary>
+### Diagram Sources (D2 · Graphviz)
 
-- [`docs/architecture.d2`](docs/architecture.d2) — render with `d2 docs/architecture.d2 docs/architecture.svg`
-- [`docs/architecture.dot`](docs/architecture.dot) — render with `dot -Tsvg docs/architecture.dot -o docs/architecture-gv.svg`
+The diagram is maintained as text — version-controlled, easy to update, with SVG committed for direct viewing.
 
-```d2
-direction: down
-
-sat: "Satellite imagery\nmultispectral"
-seg: "PyTorch segmentation\nsoil contamination · water turbidity"
-sensors: "Field sensors\n20+ IoT devices"
-airbyte: "Airbyte sync\nno manual wrangling"
-db: "Central database"
-ts: "scikit-learn time-series\ntrend forecasting · air quality"
-api: "FastAPI backend\nREST + data services"
-app: "Flutter app\nmaps · charts · chatbot · biometrics"
-
-sat -> seg: pixels
-sensors -> airbyte: streams
-airbyte -> db: loads
-seg -> api: predictions
-db -> ts: series
-ts -> api: forecasts
-api -> app: JSON/REST
-```
-
-```dot
-digraph gabeseye {
-  rankdir=TB;
-  sat -> seg [label="pixels"];
-  sensors -> airbyte [label="streams"];
-  airbyte -> db [label="loads"];
-  seg -> api [label="predictions"];
-  db -> ts [label="series"];
-  ts -> api [label="forecasts"];
-  api -> app [label="JSON/REST"];
-}
-```
-
-</details>
+- **D2 source** — [`docs/architecture.d2`](docs/architecture.d2), the preferred format for readability:
+  `d2 docs/architecture.d2 docs/architecture.svg`
+- **Graphviz (DOT) source** — [`docs/architecture.dot`](docs/architecture.dot), for broader compatibility:
+  `dot -Tsvg docs/architecture.dot -o docs/architecture-gv.svg`
 
 ---
 
-## Features
+## 3. Features
 
 | Feature | Details |
 |---------|---------|
@@ -90,7 +78,7 @@ digraph gabeseye {
 
 ---
 
-## Tech Stack
+## 4. Tech Stack
 
 ### Frontend (This Repo)
 
@@ -120,7 +108,7 @@ digraph gabeseye {
 
 ---
 
-## Getting Started
+## 5. Getting Started
 
 ### Prerequisites
 
@@ -146,7 +134,7 @@ The app supports **Android**, **iOS**, **Web**, **Linux**, **macOS**, and **Wind
 
 ---
 
-## Project Structure
+## 6. Project Structure
 
 ```
 lib/
@@ -154,7 +142,7 @@ lib/
 ├── l10n/         # Localization files
 ├── models/       # Data models
 ├── providers/    # State management (Provider)
-├── screens/      # UI screens
+├── screens/      # UI screens — role-based (farmer, fisherman, authority) + map, alerts, reports, drone
 ├── services/     # API services and business logic
 ├── theme/        # App theming
 └── main.dart     # Entry point
@@ -162,12 +150,16 @@ lib/
 
 ---
 
-## Hackathon Context
+## 7. Conclusion
 
-Built for **H12 INNOVATION 3.0** — a national innovation hackathon focused on environmental technology. The project was designed to address real environmental monitoring challenges in the Gabès region, combining satellite remote sensing with ground-level IoT sensor data for comprehensive environmental surveillance.
+GabèsEye taught me that environmental data is only as good as its last mile: satellites and sensors mean nothing if a farmer can't read the answer on a phone. This app is that last mile — one codebase, six platforms, three roles.
+
+If you build systems where data has to survive contact with the real world, let's talk.
 
 ---
 
 <p align="center">
   <sub>H12 INNOVATION 3.0 · Environmental Intelligence Through AI & Data Engineering</sub>
+  <br />
+  <sub>👋 <a href="https://github.com/adriansalvadorekomo"><b>Adrian Salvador Ekomo</b></a> · <a href="https://linkedin.com/in/adrian-salvador-ekomo-mesi-obono-5990b8182">LinkedIn</a> · seeking a Junior Data Engineer role</sub>
 </p>
