@@ -1,0 +1,38 @@
+// GabèsEye — system architecture (Graphviz source)
+// Render: dot -Tsvg docs/architecture.dot -o docs/architecture-gv.svg
+// Also see docs/architecture.d2 (D2 equivalent, rendered as docs/architecture.svg).
+
+digraph gabeseye {
+  rankdir=TB;
+  splines=ortho;
+  nodesep=0.5;
+  ranksep=0.7;
+  fontname="Helvetica";
+  node [fontname="Helvetica" fontsize=11 style="filled,rounded" shape=box];
+  edge [fontname="Helvetica" fontsize=10];
+
+  sat     [label="Satellite imagery\nmultispectral"
+           fillcolor="#E8EEF7" color="#4169E1" penwidth=2];
+  seg     [label="PyTorch segmentation\nsoil contamination · water turbidity"
+           fillcolor="#FDECEA" color="#EE4C2C" penwidth=2];
+  sensors [label="Field sensors\n20+ IoT devices"
+           fillcolor="#FEF3E2" color="#B7791F" penwidth=2];
+  airbyte [label="Airbyte sync\nno manual wrangling"
+           fillcolor="#FEF3E2" color="#B7791F" penwidth=2];
+  db      [label="Central database"
+           fillcolor="#FEF3E2" color="#B7791F" penwidth=2 shape=cylinder];
+  ts      [label="scikit-learn time-series\ntrend forecasting · air quality"
+           fillcolor="#FDECEA" color="#EE4C2C" penwidth=2];
+  api     [label="FastAPI backend\nREST + data services"
+           fillcolor="#E6F4EA" color="#1A7F37" penwidth=2];
+  app     [label="Flutter app\nmaps · charts · chatbot · biometrics"
+           fillcolor="#E6F4EA" color="#1A7F37" penwidth=2];
+
+  sat -> seg [label="pixels"];
+  sensors -> airbyte [label="streams"];
+  airbyte -> db [label="loads"];
+  seg -> api [label="predictions"];
+  db -> ts [label="series"];
+  ts -> api [label="forecasts"];
+  api -> app [label="JSON/REST"];
+}

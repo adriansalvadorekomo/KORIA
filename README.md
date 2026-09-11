@@ -26,28 +26,52 @@ The system monitors soil contamination, water turbidity, and air quality — giv
 
 ## Architecture
 
+![GabèsEye system architecture](docs/architecture.svg)
+
+*Satellite pixels and field-sensor streams converge through ML models into one
+FastAPI backend serving the cross-platform Flutter app.*
+
+<details>
+<summary><b>Diagram sources (D2 · Graphviz)</b></summary>
+
+- [`docs/architecture.d2`](docs/architecture.d2) — render with `d2 docs/architecture.d2 docs/architecture.svg`
+- [`docs/architecture.dot`](docs/architecture.dot) — render with `dot -Tsvg docs/architecture.dot -o docs/architecture-gv.svg`
+
+```d2
+direction: down
+
+sat: "Satellite imagery\nmultispectral"
+seg: "PyTorch segmentation\nsoil contamination · water turbidity"
+sensors: "Field sensors\n20+ IoT devices"
+airbyte: "Airbyte sync\nno manual wrangling"
+db: "Central database"
+ts: "scikit-learn time-series\ntrend forecasting · air quality"
+api: "FastAPI backend\nREST + data services"
+app: "Flutter app\nmaps · charts · chatbot · biometrics"
+
+sat -> seg: pixels
+sensors -> airbyte: streams
+airbyte -> db: loads
+seg -> api: predictions
+db -> ts: series
+ts -> api: forecasts
+api -> app: JSON/REST
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│                    GABÈSEYE SYSTEM                                 │
-│                                                                   │
-│  Satellite Imagery ──→ PyTorch Segmentation Models                │
-│       (multispectral)      ├── Soil contamination classification  │
-│                            └── Water turbidity detection          │
-│                                                                   │
-│  Field Sensors ────────→ Airbyte Sync ──→ Central Database        │
-│       (IoT devices)           └── No manual data wrangling        │
-│                                                                   │
-│  Central DB ───────────→ scikit-learn Time-Series Models          │
-│                              ├── Contamination trend forecasting  │
-│                              └── Air quality prediction           │
-│                                                                   │
-│  API Layer (FastAPI) ──→ Flutter Cross-Platform App              │
-│                              ├── Interactive maps (flutter_map)   │
-│                              ├── Real-time charts (fl_chart)      │
-│                              ├── Multilingual chatbot interface   │
-│                              └── Biometric auth (local_auth)      │
-└─────────────────────────────────────────────────────────────────┘
+
+```dot
+digraph gabeseye {
+  rankdir=TB;
+  sat -> seg [label="pixels"];
+  sensors -> airbyte [label="streams"];
+  airbyte -> db [label="loads"];
+  seg -> api [label="predictions"];
+  db -> ts [label="series"];
+  ts -> api [label="forecasts"];
+  api -> app [label="JSON/REST"];
+}
 ```
+
+</details>
 
 ---
 
@@ -141,17 +165,6 @@ lib/
 ## Hackathon Context
 
 Built for **H12 INNOVATION 3.0** — a national innovation hackathon focused on environmental technology. The project was designed to address real environmental monitoring challenges in the Gabès region, combining satellite remote sensing with ground-level IoT sensor data for comprehensive environmental surveillance.
-
----
-
-## Related
-
-| Resource | Link |
-|----------|------|
-| 📄 CV (Multi-Language) | [Download PDFs](https://github.com/adriansalvadorekomo/adriansalvadorekomo/tree/main/cv) |
-| 🏗 Data Engineering Portfolio | [Profile](https://github.com/adriansalvadorekomo) |
-| 📊 Event Analytics Platform | [EventZilla BI](https://github.com/adriansalvadorekomo/Esprit-PABI-4ERPBI6-2526-EventZella) |
-| 🗄 Smart-ERP DataOps | [ERP System](https://github.com/adriansalvadorekomo/smart-erp-dataopts) |
 
 ---
 
