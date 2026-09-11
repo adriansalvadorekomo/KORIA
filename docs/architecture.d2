@@ -1,69 +1,96 @@
 # GabèsEye — system architecture (D2 source)
 # Render: d2 docs/architecture.d2 docs/architecture.svg
-# Also see docs/architecture.dot (Graphviz equivalent).
+# Also see docs/architecture.dot (Graphviz) and docs/architecture.mmd (Mermaid).
 
-direction: down
+direction: right
 
-classes: {
-  space: {
+Sensing: {
+  sat: "Satellite imagery\nmultispectral" {
     style: {
       fill: "#E8EEF7"
       stroke: "#4169E1"
-      border-radius: 8
     }
   }
-  field: {
+
+  sensors: "Field sensors\n20+ IoT devices" {
     style: {
-      fill: "#FEF3E2"
-      stroke: "#B7791F"
-      border-radius: 8
+      fill: "#E8EEF7"
+      stroke: "#4169E1"
     }
   }
-  ml: {
+}
+
+"Data & Intelligence": {
+  direction: right
+
+  seg: "PyTorch segmentation\nsoil · water turbidity" {
     style: {
       fill: "#FDECEA"
-      stroke: "#EE4C2C"
-      border-radius: 8
+      stroke: "#FF3621"
     }
   }
-  serve: {
+
+  airbyte: "Airbyte sync\nno manual wrangling" {
+    style: {
+      fill: "#FDECEA"
+      stroke: "#FF3621"
+    }
+  }
+
+  db: "Central database" {
+    style: {
+      fill: "#FDECEA"
+      stroke: "#FF3621"
+    }
+  }
+
+  ts: "scikit-learn time-series\ntrends · air quality" {
+    style: {
+      fill: "#FDECEA"
+      stroke: "#FF3621"
+    }
+  }
+
+  airbyte -> db: loads
+  db -> ts: series
+}
+
+Serving: {
+  api: "FastAPI backend\nREST + data services" {
     style: {
       fill: "#E6F4EA"
       stroke: "#1A7F37"
-      border-radius: 8
     }
   }
 }
 
-sat: "Satellite imagery\nmultispectral" {
-  class: space
-}
-seg: "PyTorch segmentation\nsoil contamination · water turbidity" {
-  class: ml
-}
-sensors: "Field sensors\n20+ IoT devices" {
-  class: field
-}
-airbyte: "Airbyte sync\nno manual wrangling" {
-  class: field
-}
-db: "Central database" {
-  class: field
-}
-ts: "scikit-learn time-series\ntrend forecasting · air quality" {
-  class: ml
-}
-api: "FastAPI backend\nREST + data services" {
-  class: serve
-}
-app: "Flutter app\nmaps · charts · chatbot · biometrics" {
-  class: serve
+"Flutter App": {
+  maps: "Maps · Charts\nflutter_map · fl_chart" {
+    style: {
+      fill: "#E6F4EA"
+      stroke: "#1A7F37"
+    }
+  }
+
+  chatbot: "Multilingual chatbot\nenvironmental queries" {
+    style: {
+      fill: "#E6F4EA"
+      stroke: "#1A7F37"
+    }
+  }
+
+  roles: "Role screens\nfarmer · fisherman · authority" {
+    style: {
+      fill: "#E6F4EA"
+      stroke: "#1A7F37"
+    }
+  }
 }
 
-sat -> seg: pixels
-sensors -> airbyte: streams
-airbyte -> db: loads
-seg -> api: predictions
-db -> ts: series
-ts -> api: forecasts
-api -> app: JSON/REST
+Sensing.sat -> "Data & Intelligence".seg: pixels
+Sensing.sensors -> "Data & Intelligence".airbyte: streams
+"Data & Intelligence".seg -> Serving.api: predictions
+"Data & Intelligence".ts -> Serving.api: forecasts
+Serving.api -> "Flutter App".maps: JSON/REST
+Serving.api -> "Flutter App".chatbot: JSON/REST
+Serving.api -> "Flutter App".roles: JSON/REST
