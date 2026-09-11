@@ -1,7 +1,7 @@
 <h1 align="center">KORIA — GabèsEye</h1>
 
 <p align="center">
-  <b>AI-powered environmental monitoring platform</b> — H12 INNOVATION 3.0
+  <b>Real-time environmental monitoring platform</b> — satellite imagery · IoT sensors · AI forecasting — H12 INNOVATION 3.0
 </p>
 
 <p align="center">
