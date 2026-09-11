@@ -49,13 +49,55 @@ GabèsEye is our answer, built during the **H12 INNOVATION 3.0** national hackat
 
 ![GabèsEye system architecture](docs/architecture.svg)
 
+```mermaid
+flowchart TB
+    subgraph SENSE["🛰️ Sensing"]
+        SAT[("Satellite imagery<br/>multispectral")]
+        SEN[("Field sensors<br/>20+ IoT devices")]
+    end
+
+    subgraph INGEST["🔄 Ingestion"]
+        SEG("PyTorch segmentation<br/>soil · water turbidity")
+        AB(["Airbyte sync<br/>no manual wrangling"])
+        DB[("Central database")]
+    end
+
+    subgraph INTEL["🤖 Intelligence"]
+        TS("scikit-learn time-series<br/>trends · air quality")
+    end
+
+    subgraph SERVE["🖥️ Serving"]
+        API("FastAPI backend<br/>REST + data services")
+    end
+
+    subgraph APP["📱 Flutter App"]
+        MAP("Maps<br/>flutter_map")
+        CHA("Charts<br/>fl_chart")
+        BOT("Multilingual chatbot")
+        ROL("Role screens<br/>farmer · fisherman · authority")
+        SEC(["Biometric auth"])
+    end
+
+    SAT -->|"pixels"| SEG
+    SEN -->|"streams"| AB
+    AB -->|"loads"| DB
+    SEG -->|"predictions"| API
+    DB -->|"series"| TS
+    TS -->|"forecasts"| API
+    API -->|"JSON/REST"| MAP
+    API -->|"JSON/REST"| CHA
+    API -->|"JSON/REST"| BOT
+    API -->|"JSON/REST"| ROL
+```
+
 *Satellite pixels and field-sensor streams converge through ML models into one
 FastAPI backend serving the cross-platform Flutter app.*
 
-### Diagram Sources (D2 · Graphviz)
+### Diagram Sources (D2 · Graphviz · Mermaid)
 
 The diagram is maintained as text — version-controlled, easy to update, with SVG committed for direct viewing.
 
+- **Mermaid source** — [`docs/architecture.mmd`](docs/architecture.mmd), rendered natively by GitHub above
 - **D2 source** — [`docs/architecture.d2`](docs/architecture.d2), the preferred format for readability:
   `d2 docs/architecture.d2 docs/architecture.svg`
 - **Graphviz (DOT) source** — [`docs/architecture.dot`](docs/architecture.dot), for broader compatibility:

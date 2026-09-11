@@ -1,0 +1,42 @@
+%% GabèsEye — system-design flow (Mermaid source)
+%% Rendered natively by GitHub from the README code block.
+%% Also see docs/architecture.d2 (D2) and docs/architecture.dot (Graphviz).
+
+flowchart TB
+    subgraph SENSE["🛰️ Sensing"]
+        SAT[("Satellite imagery<br/>multispectral")]
+        SEN[("Field sensors<br/>20+ IoT devices")]
+    end
+
+    subgraph INGEST["🔄 Ingestion"]
+        SEG("PyTorch segmentation<br/>soil · water turbidity")
+        AB(["Airbyte sync<br/>no manual wrangling"])
+        DB[("Central database")]
+    end
+
+    subgraph INTEL["🤖 Intelligence"]
+        TS("scikit-learn time-series<br/>trends · air quality")
+    end
+
+    subgraph SERVE["🖥️ Serving"]
+        API("FastAPI backend<br/>REST + data services")
+    end
+
+    subgraph APP["📱 Flutter App"]
+        MAP("Maps<br/>flutter_map")
+        CHA("Charts<br/>fl_chart")
+        BOT("Multilingual chatbot")
+        ROL("Role screens<br/>farmer · fisherman · authority")
+        SEC(["Biometric auth"])
+    end
+
+    SAT -->|"pixels"| SEG
+    SEN -->|"streams"| AB
+    AB -->|"loads"| DB
+    SEG -->|"predictions"| API
+    DB -->|"series"| TS
+    TS -->|"forecasts"| API
+    API -->|"JSON/REST"| MAP
+    API -->|"JSON/REST"| CHA
+    API -->|"JSON/REST"| BOT
+    API -->|"JSON/REST"| ROL
